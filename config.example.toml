@@ -73,3 +73,12 @@ enabled = false
 # For local dev: use "http://localhost:<port>".
 url = "http://host.docker.internal:8010"
 cache_ttl_seconds = 60
+
+##############################
+### Deployment (optional) ####
+##############################
+# Host port published by docker-compose (left side of host:container mapping)
+[deployment]
+host_port = 8080
+# Used only when starting with tunnel profile: ./scripts/start.sh tunnel
+cloudflare_tunnel_token = ""

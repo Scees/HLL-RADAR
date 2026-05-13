@@ -28,7 +28,7 @@ services:
     container_name: hll-radar
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "${HLL_RADAR_HOST_PORT:-8080}:8080"
     volumes:
       - ./config.toml:/app/config.toml:ro
       - ./logs:/app/logs
@@ -65,6 +65,19 @@ services:
       start_period: 15s
     depends_on:
       postgres:
+        condition: service_healthy
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: hll-cloudflared
+    restart: unless-stopped
+    profiles:
+      - tunnel
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    environment:
+      - TZ=UTC
+    depends_on:
+      hll-radar:
         condition: service_healthy
 
 volumes:
