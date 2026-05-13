@@ -1,7 +1,7 @@
 # ---- Frontend build stage ----
 FROM node:22-alpine AS frontend-builder
 
-RUN corepack enable
+RUN corepack enable && corepack prepare pnpm@10.17.1 --activate
 
 WORKDIR /app/frontend
 
