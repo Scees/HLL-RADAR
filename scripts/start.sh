@@ -12,6 +12,11 @@ fi
 
 # Create logs directory
 mkdir -p logs
+# On Linux bind mounts, host permissions apply inside the container.
+# Ensure non-root container user can write logs.
+if [ "$(uname -s)" = "Linux" ]; then
+    chmod 0777 logs || true
+fi
 
 # Read a simple value from a TOML section/key pair.
 toml_get() {
